@@ -1,0 +1,110 @@
+import { React, useMemo } from "react";
+import NavbarLink from "../navbar-link/NavbarLink";
+import TestLegend from "../test-legend/TestLegend";
+import BtnLogout from "../btn-logout/BtnLogout";
+import { useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { login, logout } from "../../store/authSlice";
+
+function Navbar(props) {
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const location = useLocation();
+  //const currentLocation = location.state?.location === undefined ? "log-in" : location.state?.location;
+
+  const currentLocation =
+    location.state?.location === undefined
+      ? isAuthenticated === true
+        ? "websites"
+        : "log-in"
+      : location.state?.location;
+
+  const legend = useMemo(() => {
+    switch (location.pathname) {
+      case "/accessibility-dev/a11y/tests":
+        return <TestLegend />;
+      default:
+        return <></>;
+    }
+  }, [location]);
+
+  return (
+    <div id="navbar" className="shadow-sm">
+      <a className="default-anchor visually-hidden" href="#container" id="skipnavbar">
+        salta il menù
+      </a>
+      <nav aria-label="menù principale del sito">
+        <ul className="navbar-sx">
+          {isAuthenticated && (
+            <>
+              <NavbarLink
+                icon="websites"
+                url="/accessibility-dev/websites"
+                text="I miei siti"
+                isActive={currentLocation === "websites"}
+                location="websites"
+              />
+              <NavbarLink
+                icon="a11y"
+                url="/accessibility-dev/a11y "
+                text="Accessibilità"
+                isActive={currentLocation === "a11y"}
+                location="a11y"
+              />
+              <NavbarLink
+                icon="profile"
+                url="/accessibility-dev/profile"
+                text="Profilo"
+                isActive={currentLocation === "profile"}
+                location="profile"
+              />
+
+              <NavbarLink
+                icon="tools"
+                url="/accessibility-dev/tools"
+                text="Strumenti e risorse"
+                isActive={currentLocation === "tools"}
+                location="tools"
+                border="border-top"
+              />
+              <NavbarLink
+                icon="ranking"
+                url="/accessibility-dev/ranking"
+                text="Classifica"
+                isActive={currentLocation === "ranking"}
+                location="ranking"
+                border="border-bottom"
+              />
+            </>
+          )}
+          {!isAuthenticated && (
+            <>
+              <NavbarLink
+                icon="log-in"
+                url="/accessibility-dev/log-in"
+                text="log-in"
+                isActive={currentLocation === "log-in"}
+                location="log-in"
+                border="border-top"
+              />
+              <NavbarLink
+                icon="sign-up"
+                url="/accessibility-dev/sign-up"
+                text="Sign-up"
+                isActive={currentLocation === "sign-up"}
+                location="sign-up"
+                border="border-bottom"
+              />
+            </>
+          )}
+        </ul>
+      </nav>
+      {legend}
+      {isAuthenticated && <BtnLogout />} {/* per vedere il button di logout {!isAuthenticated && <BtnLogout /> }*/}
+      <hr aria-hidden="true" alt="" />
+    </div>
+  );
+}
+
+export default Navbar;
