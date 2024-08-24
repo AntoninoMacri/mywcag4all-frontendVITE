@@ -3,15 +3,14 @@ import Card from "react-bootstrap/Card";
 import { useParams } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import axios from "../../service/client";
-import WebsiteFormLanding from "../website-form-landing/WebsiteFormLanding";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { postUpdateWebsite, postDeleteWebsite, postCreateWebsite } from "../../service/api/api.websites";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { removeWebsite, setWebsite as setWebsiteDisp, setFilters, setFilteredTestData } from "../../store/websiteSlice";
 import { useNavigate } from "react-router-dom";
+import WebsiteFormLanding from "../website-form-landing/WebsiteFormLanding";
+import { Link } from "react-router-dom";
 
 export default function WebsiteForm(props) {
   const user = useSelector((state) => state.auth.user);
@@ -20,11 +19,12 @@ export default function WebsiteForm(props) {
   const [operation, setOperation] = useState("");
   const params = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const _website = useSelector((state) => state.website.website);
   const [website, setWebsite] = useState(_website);
 
-  const { register, handleSubmit, control } = useForm({
+  const { register, handleSubmit, control, formState: { errors } } = useForm({
     defaultValues: props.type === "update" ? website : {},
   });
 
@@ -39,20 +39,19 @@ export default function WebsiteForm(props) {
       dispatch(setFilters());
       dispatch(setFilteredTestData());
     }
-  }, []);
+  }, [params.websiteid, props.type, dispatch]);
 
-  const onSubmit = (data, event) => {
+  const onSubmit = (data) => {
     if (props.type === "create") {
-      //create a new website
+      // Create a new website
       const website = {
         ...data,
         wcagLevel: "N.A.",
         score: 0,
         user: user?._id,
       };
-      console.log("website: ", website);
       postCreateWebsite(website)
-        .then((res) => {
+        .then(() => {
           setOperation("Inserimento sito avvenuto con successo!");
           setLanding(true);
         })
@@ -63,7 +62,7 @@ export default function WebsiteForm(props) {
         });
     } else if (props.type === "update") {
       postUpdateWebsite(params.websiteid, data)
-        .then((res) => {
+        .then(() => {
           setOperation("Aggiornamento dati del sito avvenuto con successo!");
           setLanding(true);
         })
@@ -75,17 +74,17 @@ export default function WebsiteForm(props) {
     }
   };
 
-  const onSubmitOnlyDelete = (data, event) => {
+  const onSubmitOnlyDelete = () => {
     if (props.type === "delete") {
       dispatch(removeWebsite({}));
       postDeleteWebsite(params.websiteid)
-        .then((res) => {
+        .then(() => {
           setOperation("Eliminazione sito avvenuta con successo!");
           setLanding(true);
         })
         .catch((err) => {
           setOperation("Errore");
-          setError(landing);
+          setError(err);
           setLanding(true);
         });
     }
@@ -102,30 +101,44 @@ export default function WebsiteForm(props) {
             <Form onSubmit={handleSubmit(onSubmit)}>
               <Form.Group className="mb-3">
                 <Form.Label className="w-100">Nome del sito</Form.Label>
-
                 <Controller
                   name="name"
                   control={control}
-                  defaultValue={website?.name}
-                  placeholder="Inserisci il nome del tuo sito..."
-                  rules={{ required: true }}
-                  render={({ field }) => <Form.Control type="text" {...field} />}
+                  defaultValue={website?.name || ""}
+                  rules={{ required: "Il nome del sito è obbligatorio" }}
+                  render={({ field }) => (
+                    <Form.Control
+                      type="text"
+                      {...field}
+                      isInvalid={!!errors.name}
+                    />
+                  )}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {errors.name?.message}
+                </Form.Control.Feedback>
               </Form.Group>
 
               <Form.Group className="mb-3">
                 <Form.Label className="w-100">
                   <abbr title="Uniform Resource Locator">URL</abbr>
                 </Form.Label>
-
                 <Controller
                   name="url"
                   control={control}
-                  defaultValue={String(website?.url)}
-                  placeholder="Inserisci l'URL del tuo sito..."
-                  rules={{ required: true }}
-                  render={({ field }) => <Form.Control type="text" {...field} />}
+                  defaultValue={String(website?.url) || ""}
+                  rules={{ required: "L'URL del sito è obbligatorio" }}
+                  render={({ field }) => (
+                    <Form.Control
+                      type="text"
+                      {...field}
+                      isInvalid={!!errors.url}
+                    />
+                  )}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {errors.url?.message}
+                </Form.Control.Feedback>
               </Form.Group>
 
               <Form.Group className="mb-3">
@@ -136,7 +149,7 @@ export default function WebsiteForm(props) {
                     href="https://www.gazzettaufficiale.it/eli/id/2004/01/17/004G0015/sg"
                     rel="noreferrer external"
                     target="_blank"
-                    hrefLang={"it"}
+                    hrefLang="it"
                   >
                     Legge Stanca
                   </a>
@@ -146,13 +159,12 @@ export default function WebsiteForm(props) {
                     rel="noreferrer external prev"
                     target="_blank"
                     href="https://eur-lex.europa.eu/legal-content/IT/TXT/?uri=CELEX%3A32016L2102"
-                    hrefLang={"en"}
+                    hrefLang="en"
                   >
                     Direttiva <abbr title="Unione Europea">UE</abbr> 2102 del 2016
                   </a>
                   ) ?
                 </Form.Label>
-                
                 <Controller
                   name="isPublic"
                   control={control}
@@ -200,13 +212,13 @@ export default function WebsiteForm(props) {
 
       {landing && <WebsiteFormLanding action={operation} />}
 
-      {landing == false && props.type === "delete" && (
+      {!landing && props.type === "delete" && (
         <Card className="card-specific shadow1">
           <Card.Header as="h2" className="border-bottom">
             Confermi l'eliminazione del sito?
           </Card.Header>
           <Card.Body>
-            <Form onSubmit={handleSubmit(onSubmitOnlyDelete)} action="">
+            <Form onSubmit={handleSubmit(onSubmitOnlyDelete)}>
               <Button type="submit" variant="primary" className="w-100">
                 Conferma eliminazione
               </Button>
