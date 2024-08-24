@@ -46,7 +46,7 @@ export default function WebsiteForm(props) {
       //create a new website
       const website = {
         ...data,
-        level: "N.A.",
+        wcagLevel: "N.A.",
         score: 0,
         user: user?._id,
       };
@@ -152,19 +152,32 @@ export default function WebsiteForm(props) {
                   </a>
                   ) ?
                 </Form.Label>
-                <Form.Check
-                  name="group1"
-                  id="website_is_pa_yes"
-                  label="Si"
-                  type="radio"
-                  defaultChecked={website?.isPublic ? true : false}
-                />
-                <Form.Check
-                  name="group1"
-                  id="website_is_pa_no"
-                  label="No"
-                  type="radio"
-                  defaultChecked={!website?.isPublic ? true : false}
+                
+                <Controller
+                  name="isPublic"
+                  control={control}
+                  defaultValue={website?.isPublic || false}
+                  rules={{ validate: value => value === true || value === false }}
+                  render={({ field }) => (
+                    <>
+                      <Form.Check
+                        {...field}
+                        type="radio"
+                        label="Sì"
+                        value={true}
+                        checked={field.value === true}
+                        onChange={() => field.onChange(true)}
+                      />
+                      <Form.Check
+                        {...field}
+                        type="radio"
+                        label="No"
+                        value={false}
+                        checked={field.value === false}
+                        onChange={() => field.onChange(false)}
+                      />
+                    </>
+                  )}
                 />
               </Form.Group>
 
