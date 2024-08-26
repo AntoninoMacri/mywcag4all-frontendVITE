@@ -48,12 +48,14 @@ export default function PageA11yWcagGuidelineList(props) {
   };
 
   const saveAndUpdateSections = () => {
-    postUpdateWebsiteSections(website._id, website.sections).then((res) => {
-    }).catch((err) => {
-      console.log("error");
-    });
-
-  }
+    postUpdateWebsiteSections(website._id, website.sections)
+      .then((res) => {
+        // nulla di fatto con la risposta
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+  };
 
   const procede = useMemo(() => {
     if (wcag1 && wcag2 && wcag3 && wcag4) {
@@ -69,9 +71,7 @@ export default function PageA11yWcagGuidelineList(props) {
       );
     } else {
       return (
-        <span className="btn btn-success w-100 disabled mt-3 shadow">
-          Controlla le sezioni WCAG prima di procedere
-        </span>
+        <span className="btn btn-success w-100 disabled mt-3 shadow">Controlla le sezioni WCAG prima di procedere</span>
       );
     }
   }, [wcag1, wcag2, wcag3, wcag4]);
@@ -107,51 +107,50 @@ export default function PageA11yWcagGuidelineList(props) {
     <Container>
       <Breadcrumb pages={breadcrumb_pages} />
 
-      <Title
-        title={
-          'Sezioni WCAG per il sito "' +
-          website.name +
-          '"'
-        }
-        className="title-a11y"
-      />
+      <Title title={'Sezioni WCAG per il sito "' + website.name + '"'} className="title-a11y" />
 
       <Row>
-        {
-          sections?.map((section, index) => {
-            return (
-              <Col sm={3} className="d-flex align-items-stretch">
-
-                <Card className="card-specific shadow-sm">
-                  <Card.Header as="h2" className="h3 border-bottom">
-                    Sezione WCAG {section.index}
-                  </Card.Header>
-                  <Card.Body>
-                    {section.description}
-                  </Card.Body>
-                  <Card.Footer>
-                    <Link
-                      to={"/accessibility-dev/a11y/wcag-guidelines/" + section.index}
-                      className="btn btn-primary"
-                      state={{ location: "a11y" }}
-                    >
-                      Vai alla checklist dei criteri della sezione {section.index}
-                    </Link>
-                    <Form.Group className="mt-3">
-                      <Form.Check
-                        type="checkbox"
-                        label={"Sezione " + section.index + " controllata"}
-                        id={"section-" + section.index}
-                        onClick={onClickHandler}
-                        data-section={section.index}
-                      />
-                    </Form.Group>
-                  </Card.Footer>
-                </Card>
-              </Col>
-            )
-          })
-        }
+        {sections?.map((section, index) => {
+          return (
+            <Col sm={3} className="d-flex align-items-stretch" key={section.index}>
+              <Card className="card-specific shadow-sm">
+                <Card.Header as="h2" className="h3 border-bottom">
+                  Sezione WCAG {section.index}
+                </Card.Header>
+                <Card.Body>{section.description}</Card.Body>
+                <Card.Footer>
+                  <Link
+                    to={"/accessibility-dev/a11y/wcag-guidelines/" + section.index}
+                    className="btn btn-primary"
+                    state={{ location: "a11y" }}
+                  >
+                    Vai alla checklist dei criteri della sezione {section.index}
+                  </Link>
+                  <Form.Group className="mt-3">
+                    <Form.Check
+                      type="checkbox"
+                      label={"Sezione " + section.index + " controllata"}
+                      id={"section-" + section.index}
+                      checked={
+                        section.index === 1
+                          ? wcag1
+                          : section.index === 2
+                          ? wcag2
+                          : section.index === 3
+                          ? wcag3
+                          : section.index === 4
+                          ? wcag4
+                          : false
+                      }
+                      onChange={onClickHandler}
+                      data-section={section.index}
+                    />
+                  </Form.Group>
+                </Card.Footer>
+              </Card>
+            </Col>
+          );
+        })}
       </Row>
 
       <Row className="mt-5">
