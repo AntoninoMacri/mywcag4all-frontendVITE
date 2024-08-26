@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import { useParams } from "react-router-dom";
 import Form from "react-bootstrap/Form";
@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { patchUpdateWebsite, postDeleteWebsite, postCreateWebsite } from "../../service/api/api.websites";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { removeWebsite, setWebsite as setWebsiteDisp, setFilters, setFilteredTestData } from "../../store/websiteSlice"; //setWebsite as setWebsiteDisp perchè andava in conflitto con setWebsite di const [website, setWebsite] = useState(_website);
+import { removeWebsite, setWebsite as setWebsiteDisp, setFilters, setFilteredTestData } from "../../store/websiteSlice";
 import { useNavigate } from "react-router-dom";
 import WebsiteFormLanding from "../website-form-landing/WebsiteFormLanding";
 import { Link } from "react-router-dom";
@@ -22,18 +22,15 @@ export default function WebsiteForm(props) {
   const navigate = useNavigate();
 
   const _website = useSelector((state) => state.website.website);
-  //const [website, setWebsite] = useState(_website); // Non serve confonde è basta senza venire mai effettivamente usato
+  const [website, setWebsite] = useState(_website);
 
   const { register, handleSubmit, control, formState: { errors } } = useForm({
-    defaultValues: props.type === "update" ? _website : {},
+    defaultValues: props.type === "update" ? website : {},
   });
 
   useEffect(() => {
-    if (props.type === "update") {
-      //ERRORE INCONSISTENZA IN QUESTE DUE ISTRUZIONI SUCCESSIVE: SE SI ESEGUE DUE UPDATE DELLO STESSO WEBSITE DI FILA
-      const id = params.websiteid;
-      dispatch(setWebsiteDisp({ id: id }));
-
+    if (props.type === "update" && params.websiteid) {
+      fetchWebsiteData(params.websiteid); // Carica i dati del sito dal server
       dispatch(setFilters());
       dispatch(setFilteredTestData());
     } else {
@@ -43,9 +40,19 @@ export default function WebsiteForm(props) {
     }
   }, [params.websiteid, props.type, dispatch]);
 
+  const fetchWebsiteData = async (id) => {
+    try {
+      const response = await patchUpdateWebsite(id); // Carica i dati del sito
+      setWebsite(response);
+      dispatch(setWebsiteDisp(response)); // Aggiorna lo stato Redux con i nuovi dati del sito
+    } catch (error) {
+      console.error("Errore nel caricamento dei dati del sito:", error);
+    }
+  };
+
   const onSubmit = (data) => {
     if (props.type === "create") {
-      // Create a new website
+      // Crea un nuovo sito web
       const website = {
         ...data,
         wcagLevel: "N.A.",
@@ -106,7 +113,7 @@ export default function WebsiteForm(props) {
                 <Controller
                   name="name"
                   control={control}
-                  defaultValue={_website?.name || ""}
+                  defaultValue={website?.name || ""}
                   rules={{ required: "Il nome del sito è obbligatorio" }}
                   render={({ field }) => (
                     <Form.Control
@@ -128,7 +135,7 @@ export default function WebsiteForm(props) {
                 <Controller
                   name="url"
                   control={control}
-                  defaultValue={String(_website?.url) || ""}
+                  defaultValue={String(website?.url) || ""}
                   rules={{ required: "L'URL del sito è obbligatorio" }}
                   render={({ field }) => (
                     <Form.Control
@@ -170,7 +177,7 @@ export default function WebsiteForm(props) {
                 <Controller
                   name="isPublic"
                   control={control}
-                  defaultValue={_website?.isPublic || false}
+                  defaultValue={website?.isPublic || false}
                   rules={{ validate: value => value === true || value === false }}
                   render={({ field }) => (
                     <>
