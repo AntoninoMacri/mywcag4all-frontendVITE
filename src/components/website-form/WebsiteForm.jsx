@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useSelector } from "react-redux";
-import { postUpdateWebsite, postDeleteWebsite, postCreateWebsite } from "../../service/api/api.websites";
+import { patchUpdateWebsite, postDeleteWebsite, postCreateWebsite } from "../../service/api/api.websites";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { removeWebsite, setWebsite as setWebsiteDisp, setFilters, setFilteredTestData } from "../../store/websiteSlice";
@@ -61,7 +61,7 @@ export default function WebsiteForm(props) {
           setLanding(true);
         });
     } else if (props.type === "update") {
-      postUpdateWebsite(params.websiteid, data)
+      patchUpdateWebsite(params.websiteid, data)
         .then(() => {
           setOperation("Aggiornamento dati del sito avvenuto con successo!");
           setLanding(true);

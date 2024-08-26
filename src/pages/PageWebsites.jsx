@@ -30,7 +30,7 @@ export default function PageWebsites(props) {
   const [websiteToUpdate, setWebsiteToUpdate] = useState();
   const page = useSelector((state) => state.website.page);
   const { user } = useSelector(selectAuth); // Usa selectAuth per ottenere l'utente dallo stato Redux
-  console.log("user: ", user);
+  // console.log("user: ", user);
 
   useTitle("I miei siti | Accessibilità | MyWcag4All");
   const dispatch = useDispatch();

@@ -52,8 +52,8 @@ function App() {
 
 const display = useMemo(() => {
   if (currentPath.pathname === "/accessibility-dev/" || currentPath.pathname === "/accessibility-dev/PageNotFound") {
-    console.log("entrato1", currentPath.pathname);
-    console.log("isAuthenticated", isAuthenticated);
+    // console.log("entrato1", currentPath.pathname);
+    // console.log("isAuthenticated", isAuthenticated);
     return (
       <>
         <Header />
@@ -68,8 +68,8 @@ const display = useMemo(() => {
       </>
     );
   } else if (isAuthenticated) {
-    console.log("entrato2", currentPath.pathname);
-    console.log("isAuthenticated", isAuthenticated);
+    // console.log("entrato2", currentPath.pathname);
+    // console.log("isAuthenticated", isAuthenticated);
     return (
       <>
         <Header />
@@ -103,8 +103,8 @@ const display = useMemo(() => {
       </>
     );
   } else {
-    console.log("entrato3", currentPath.pathname);
-    console.log("isAuthenticated", isAuthenticated);
+    // console.log("entrato3", currentPath.pathname);
+    // console.log("isAuthenticated", isAuthenticated);
     return (
       <>
         <Header />

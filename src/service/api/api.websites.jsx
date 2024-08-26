@@ -19,7 +19,7 @@ export const getWebsite = async (websiteId) => {
   }
 };
 
-export const postUpdateWebsite = async (websiteId, website) => {
+export const patchUpdateWebsite = async (websiteId, website) => {
   try {
     const res = await client.patch(`websites/${websiteId}`, website)
     return res.data;
