@@ -38,21 +38,6 @@ export default function PageWebsites(props) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    /*solo per testing fatti da Lorenzo
-    dispatch(
-      addUser({
-        _id: "654a6fd5d44f1013932f0944",
-        name: "Lorenzo",
-        surname: "Perinello",
-        username: "peri",
-        student_id: "10203040",
-        email: "perinellolor@gmail.com",
-        password: "$2b$10$kgA6ZxZkBPsYUAd0u57AWe/2.lT12eKrZlXql2hJACwJDPDayw6O.",
-        is_admin: true,
-        createdAt: "2023-11-07T17:11:49.326Z",
-        updatedAt: "2023-11-07T17:11:49.326Z",
-      })
-    );*/
 
     dispatch(setFilters());
     dispatch(setFilteredTestData());
