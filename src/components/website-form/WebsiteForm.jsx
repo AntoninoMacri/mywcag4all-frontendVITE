@@ -29,16 +29,16 @@ export default function WebsiteForm(props) {
   });
 
   useEffect(() => {
-    if (props.type === "update") {
-      const id = params.websiteid;
-      dispatch(setWebsiteDisp({ id: id }));
-      dispatch(setFilters());
-      dispatch(setFilteredTestData());
-    } else {
+    // if (props.type === "update") {
+    //   const id = params.websiteid;
+    //   dispatch(setWebsiteDisp({ id: id }));
+    //   dispatch(setFilters());
+    //   dispatch(setFilteredTestData());
+    // } else {
       dispatch(setWebsiteDisp({}));
       dispatch(setFilters());
       dispatch(setFilteredTestData());
-    }
+    //}
   }, [params.websiteid, props.type, dispatch]);
 
   const onSubmit = (data) => {
