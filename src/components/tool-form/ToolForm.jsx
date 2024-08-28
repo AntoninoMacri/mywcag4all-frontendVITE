@@ -8,24 +8,24 @@ import { Link } from "react-router-dom";
 
 export default function ToolForm(props) {
   const [sended, setSended] = useState(false);
-  const formRef = useRef(null);  // Usa useRef per ottenere un riferimento al form
+  const formRef = useRef(null); // Usa useRef per ottenere un riferimento al form
 
   const onSubmit = (e) => {
     e.preventDefault();
-    
+
     emailjs
       .sendForm(
-        process.env.EMAILJS_SERVICE_ID,
-        process.env.EMAILJS_TEMPLATE_ID,
-        formRef.current,  // Passa il riferimento corretto al form
-        process.env.EMAILJS_PUB_KEY_ID
+        import.meta.env.VITE_EMAILJS_SERVICE_ID, //NON SETTATE NELL'env file
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID, //NON SETTATE NELL'env file
+        formRef.current,
+        import.meta.env.VITE_EMAILJS_PUB_KEY_ID //NON SETTATE NELL'env file
       )
       .then(
         (result) => {
-          console.log('Email inviata con successo:', result.text);
+          console.log("Email inviata con successo:", result.text);
         },
         (error) => {
-          console.error('Errore nell\'invio dell\'email:', error.text);
+          console.error("Errore nell'invio dell'email:", error.text);
         }
       );
 
@@ -48,7 +48,7 @@ export default function ToolForm(props) {
 
         <Card.Body>
           {!sended && (
-            <Form ref={formRef} onSubmit={onSubmit}> {/* Passa formRef come ref */}
+            <Form ref={formRef} onSubmit={onSubmit}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Nome dello strumento</Form.Label>
                 <Form.Control
@@ -59,7 +59,6 @@ export default function ToolForm(props) {
                   placeholder="Inserisci il nome dello strumento"
                 />
               </Form.Group>
-
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Url</Form.Label>
                 <Form.Control
@@ -70,29 +69,12 @@ export default function ToolForm(props) {
                   placeholder="Inserisci l'url del sito o della repo ufficiale"
                 />
               </Form.Group>
-
               <Form.Group className="mb-3" controlId="formBasicCheckbox">
                 <Form.Label>Tipologia</Form.Label>
-                <Form.Check
-                  type="radio"
-                  label="A pagamento"
-                  name="pricing"
-                  value="2"
-                />
-                <Form.Check
-                  type="radio"
-                  label="Versione di prova disponibile"
-                  name="pricing"
-                  value="1"
-                />
-                <Form.Check
-                  type="radio"
-                  label="Gratis"
-                  name="pricing"
-                  value="0"
-                />
+                <Form.Check type="radio" label="A pagamento" name="pricing" value="2" />
+                <Form.Check type="radio" label="Versione di prova disponibile" name="pricing" value="1" />
+                <Form.Check type="radio" label="Gratis" name="pricing" value="0" />
               </Form.Group>
-
               <Button variant="primary" type="submit" className="w-100 my-2">
                 Invia il suggerimento
               </Button>
@@ -103,20 +85,12 @@ export default function ToolForm(props) {
             <>
               <p>Suggerimento inviato con successo.</p>
 
-              <Button
-                to="/accessibility-dev/tools"
-                className="btn btn-secondary w-100 mb-5"
-                onClick={onClickHandler}
-              >
+              <Button to="/accessibility-dev/tools" className="btn btn-secondary w-100 mb-5" onClick={onClickHandler}>
                 Invia un nuovo suggerimento
               </Button>
             </>
           )}
-          <Link
-            to="/accessibility-dev/tools"
-            className="btn btn-secondary w-100 mb-2"
-            state={{ location: "tools" }}
-          >
+          <Link to="/accessibility-dev/tools" className="btn btn-secondary w-100 mb-2" state={{ location: "tools" }}>
             Torna alla lista degli strumenti
           </Link>
         </Card.Body>
