@@ -15,10 +15,10 @@ export default function ToolForm(props) {
 
     emailjs
       .sendForm(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID, //NON SETTATE NELL'env file
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID, //NON SETTATE NELL'env file
+        import.meta.env.VITE_EMAILJS_SERVICE_ID, //TODO: NON SETTATE NELL'env file
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID, //TODO: NON SETTATE NELL'env file
         formRef.current,
-        import.meta.env.VITE_EMAILJS_PUB_KEY_ID //NON SETTATE NELL'env file
+        import.meta.env.VITE_EMAILJS_PUB_KEY_ID //TODO: NON SETTATE NELL'env file
       )
       .then(
         (result) => {
