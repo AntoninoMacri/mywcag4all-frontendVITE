@@ -10,10 +10,18 @@ import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import { useTitle } from "../hooks/HookTitle";
 import { useSelector } from "react-redux";
+import { createSelector } from "reselect";
+
+// Memoization del selettore tools_data_filtered
+const selectFilteredTools = createSelector(
+  (state) => state.tools.tools_data_filtered,
+  (tools_data_filtered) => tools_data_filtered || [] // Assicurati che ritorni sempre un array
+);
 
 export default function PageTools(props) {
   useTitle("Lista strumenti | Accessibilità | MyWcag4All");
-  const tools = useSelector((state) => state.tools.tools_data_filtered || []); // Assicurarsi che tools sia sempre un array
+  
+  const tools = useSelector(selectFilteredTools); // Utilizza il selettore memoizzato
   const page = useSelector((state) => state.tools.filter_page);
 
   const listGrouped = useMemo(() => {

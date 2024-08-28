@@ -1,27 +1,31 @@
+import React, { useRef, useState } from "react";
 import Card from "react-bootstrap/Card";
-import Title from "../title/Title";
-import { React, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Title from "../title/Title";
 import emailjs from "@emailjs/browser";
 import { Link } from "react-router-dom";
 
 export default function ToolForm(props) {
   const [sended, setSended] = useState(false);
+  const formRef = useRef(null);  // Usa useRef per ottenere un riferimento al form
 
   const onSubmit = (e) => {
     e.preventDefault();
+    
     emailjs
       .sendForm(
         process.env.EMAILJS_SERVICE_ID,
         process.env.EMAILJS_TEMPLATE_ID,
-        Form.current,
+        formRef.current,  // Passa il riferimento corretto al form
         process.env.EMAILJS_PUB_KEY_ID
       )
       .then(
-        (result) => {},
+        (result) => {
+          console.log('Email inviata con successo:', result.text);
+        },
         (error) => {
-          //console.log(error);
+          console.error('Errore nell\'invio dell\'email:', error.text);
         }
       );
 
@@ -44,7 +48,7 @@ export default function ToolForm(props) {
 
         <Card.Body>
           {!sended && (
-            <Form ref={Form} onSubmit={onSubmit}>
+            <Form ref={formRef} onSubmit={onSubmit}> {/* Passa formRef come ref */}
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Nome dello strumento</Form.Label>
                 <Form.Control
