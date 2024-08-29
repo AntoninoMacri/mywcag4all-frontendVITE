@@ -20,7 +20,7 @@ export const getWebsite = async (websiteId) => {
 };
 
 export const patchUpdateWebsite = async (websiteId, website) => {
-  //TODO: in websiteform può avvenire un errore: in pratica durante il primo login e poi alla prima modifica del sito il campo user può venir passato come string invece che come objectid (questo problema è gestito nel backend che corregge al bisogno in maniera corretta)
+  //TODO: in websiteform può avvenire un errore: in pratica durante il primo login e poi alla prima modifica del sito il campo user può venir passato come string invece che come objectid (questo problema è gestito nel backend che converte al bisogno in maniera corretta)
   try {
     const res = await client.patch(`websites/${websiteId}`, website);
     return res.data;
