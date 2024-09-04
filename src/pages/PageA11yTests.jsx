@@ -17,7 +17,7 @@ import { updateWebsiteResults } from "../store/websiteSlice";
 
 export default function PageA11y(props) {
   const website = useSelector((state) => state.website.website);
-  const page = useSelector((state) => state.website.website.filters?.filter_page || 1);
+  const page = useSelector((state) => state.website.website.filters?.filter_page || 1); // 1 è nel caso di undefined del valore website perchè non ancora caricato
   const testData = useSelector((state) => state.website.website.tests_filtered);
 
   useTitle("Tests | Dashboard | Accessibilità | MyWcag4All");
