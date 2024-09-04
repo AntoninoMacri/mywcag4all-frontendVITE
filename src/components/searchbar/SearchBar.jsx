@@ -21,7 +21,6 @@ import {
 } from "../../store/websiteSlice";
 
 function SearchBar({ uid, updateFilters }) {
-
   const filters = useSelector((state) => state.website.website.filters);
 
   const dispatch = useDispatch();
@@ -52,7 +51,7 @@ function SearchBar({ uid, updateFilters }) {
   };
 
   const handleReset = () => {
-    dispatch(setFilters())
+    dispatch(setFilters());
     dispatch(setFilteredTestData());
   };
 
@@ -488,20 +487,13 @@ function SearchBar({ uid, updateFilters }) {
               name="level"
               id="test_level"
               onChange={onChangeHandlerSelect}
+              defaultValue={filters.filter_level}
             >
               <option value="">Livello</option>
-              <option value="A" selected={filters.filter_level === "A"}>
-                A
-              </option>
-              <option value="AA" selected={filters.filter_level === "AA"}>
-                AA
-              </option>
-              <option value="AAA" selected={filters.filter_level === "AAA"}>
-                AAA
-              </option>
-              <option value="N.A." selected={filters.filter_level === "N.A."}>
-                Non specificato
-              </option>
+              <option value="A">A</option>
+              <option value="AA">AA</option>
+              <option value="AAA">AAA</option>
+              <option value="N.A.">Non specificato</option>
             </Form.Select>
           </Col>
 
@@ -509,30 +501,16 @@ function SearchBar({ uid, updateFilters }) {
             <Form.Label className="visually-hidden" htmlFor="test_type">
               Tipologia di test
             </Form.Label>
-            <Form.Select
-              name="type"
-              id="test_type"
-              onChange={onChangeHandlerSelect}
-            >
+            <Form.Select name="type" id="test_type" onChange={onChangeHandlerSelect} defaultValue={filters.filter_type}>
               <option value="">Tipologia di test</option>
-              <option value="A" selected={filters.filter_type === "A"}>
-                Automatico
-              </option>
-              <option value="S" selected={filters.filter_type === "S"}>
-                Semiautomatico
-              </option>
-              <option value="M" selected={filters.filter_type === "M"}>
-                Manuale
-              </option>
+              <option value="A">Automatico</option>
+              <option value="S">Semiautomatico</option>
+              <option value="M">Manuale</option>
             </Form.Select>
           </Col>
 
           <Col lg={1}>
-            <Button
-              type="reset"
-              variant="outline-secondary w-100 px-0 my-1"
-              onClick={handleReset}
-            >
+            <Button type="reset" variant="outline-secondary w-100 px-0 my-1" onClick={handleReset}>
               Reset
             </Button>
           </Col>
@@ -553,19 +531,11 @@ function SearchBar({ uid, updateFilters }) {
           <FaSearch alt="" />
         </Card.Header>
 
-        <Form
-          className="m-0 mt-3 px-0"
-          onSubmit={handleSubmit}
-          role="search"
-          aria-controls="tests-list"
-        >
+        <Form className="m-0 mt-3 px-0" onSubmit={handleSubmit} role="search" aria-controls="tests-list">
           {displayControls}
 
           <Container className="mb-2 mt-4 border-top pt-4" role="toolbar">
-            <Row
-              className="p-0 d-flex justify-content-between"
-              arial-control="test-btns-list"
-            >
+            <Row className="p-0 d-flex justify-content-between" arial-control="test-btns-list">
               <Col className="mr-3 p-0">
                 <Button
                   variant="primary"
@@ -609,12 +579,7 @@ function SearchBar({ uid, updateFilters }) {
                 </Button>
               </Col>
               <Col className="ml-3 p-0">
-                <Button
-                  variant="info"
-                  className="w-100 shadow-sm"
-                  data-tag="waria"
-                  onClick={handleParentButtonClick}
-                >
+                <Button variant="info" className="w-100 shadow-sm" data-tag="waria" onClick={handleParentButtonClick}>
                   W-ARIA
                 </Button>
               </Col>

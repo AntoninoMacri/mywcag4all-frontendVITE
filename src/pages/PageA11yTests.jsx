@@ -17,23 +17,21 @@ import { updateWebsiteResults } from "../store/websiteSlice";
 
 export default function PageA11y(props) {
   const website = useSelector((state) => state.website.website);
-  const page = useSelector((state) => state.website.website.filters.filter_page);
+  const page = useSelector((state) => state.website.website.filters?.filter_page || 1);
   const testData = useSelector((state) => state.website.website.tests_filtered);
 
   useTitle("Tests | Dashboard | Accessibilità | MyWcag4All");
   const dispatch = useDispatch();
 
   const updateWebsiteTests = () => {
-    
-    
-    postUpdateWebsiteTests(website._id, website.tests).then((res) => {
-      dispatch(updateWebsiteResults({ results: res }))
-      
-    }).catch((err) => {
-      console.log("error");
-    });
+    postUpdateWebsiteTests(website._id, website.tests)
+      .then((res) => {
+        dispatch(updateWebsiteResults({ results: res }));
+      })
+      .catch((err) => {
+        console.log("error");
+      });
   };
-
 
   const listGrouped = useMemo(() => {
     const listTemp = [];
@@ -49,18 +47,11 @@ export default function PageA11y(props) {
   }, [testData]);
 
   const updateFilters = () => {
-    dispatch(filterTestData())
+    dispatch(filterTestData());
   };
 
   const displayPagination = useMemo(() => {
-
-    return (
-      <MyPagination
-        totalPage={listGrouped.length}
-        actualPage={page}
-        type={"test"}
-      />
-    );
+    return <MyPagination totalPage={listGrouped.length} actualPage={page} type={"test"} />;
   }, [listGrouped.length, page]);
 
   const cardsByPage = useMemo(() => {
@@ -68,15 +59,7 @@ export default function PageA11y(props) {
   }, [listGrouped, page]);
 
   const displayItems = useMemo(() => {
-    return (
-      <ItemList
-        cardList={cardsByPage}
-        index={page}
-        type="test"
-        uid="tests-list"
-        element="test"
-      />
-    );
+    return <ItemList cardList={cardsByPage} index={page} type="test" uid="tests-list" element="test" />;
   }, [cardsByPage, page]);
 
   const breadcrumb_pages = [
@@ -111,10 +94,7 @@ export default function PageA11y(props) {
       <Breadcrumb pages={breadcrumb_pages} />
       <Title title={"TEST DI ACCESSIBILITÀ "} className="title-a11y" />
 
-      <SearchBar
-        uid="tests-list"
-        updateFilters={updateFilters}
-      />
+      <SearchBar uid="tests-list" updateFilters={updateFilters} />
 
       <>
         {displayItems}
@@ -148,9 +128,7 @@ export default function PageA11y(props) {
 
         {listGrouped.length > 1 && (
           <>
-            <Card className="main-card my-3 shadow1">
-              {displayPagination}
-            </Card>
+            <Card className="main-card my-3 shadow1">{displayPagination}</Card>
           </>
         )}
       </>
