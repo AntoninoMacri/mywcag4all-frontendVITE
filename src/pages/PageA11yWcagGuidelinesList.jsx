@@ -51,6 +51,7 @@ export default function PageA11yWcagGuidelineList(props) {
     postUpdateWebsiteSections(website._id, website.sections)
       .then((res) => {
         // nulla di fatto con la risposta
+        //TODO: dare un feedback? o Altro?
       })
       .catch((err) => {
         console.log("error", err);

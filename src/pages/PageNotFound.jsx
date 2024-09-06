@@ -7,6 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useTitle } from "../hooks/HookTitle";
 import Title from "../components/title/Title";
 
+/* NON UTILIZZATA: è la page not found di AppPublic */
 export default function PageNotFound(props) {
   const { user, isAuthenticated, isLoading } = useAuth0();
   useTitle("Pagina non trovata | MyWcag4All");

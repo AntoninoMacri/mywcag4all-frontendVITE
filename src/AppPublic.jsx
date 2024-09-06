@@ -12,6 +12,7 @@ import PublicPageNotFound from "./pages/PublicPageNotFound";
 import { useSelector } from "react-redux";
 import { selectAuth } from "./store/authSlice";
 
+/* NON UTILIZZATA */
 function App() {
   const { user, isLoading } = useSelector(selectAuth);
   const { isAuthenticated } = useSelector((state) => state.auth);
