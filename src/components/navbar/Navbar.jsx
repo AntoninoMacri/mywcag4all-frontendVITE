@@ -24,12 +24,6 @@ function Navbar(props) {
   const currentLocation = getCurrentLocation(location.pathname);
 
   const legend = useMemo(() => {
-    // switch (location.pathname) {
-    //   case "/accessibility-dev/a11y/tests":
-    //     return <TestLegend />;
-    //   default:
-    //     return <></>;
-    // }
     if (location.pathname.startsWith("/accessibility-dev/a11y/tests")) return <TestLegend />;
     else return <></>;
   }, [location.pathname]);

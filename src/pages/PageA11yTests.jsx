@@ -39,6 +39,12 @@ export default function PageA11y(props) {
       j,
       temporary,
       chunk = 10;
+
+    // Controlla se testData esiste ed è un array
+    if (!testData || !Array.isArray(testData) || testData.length === 0) {
+      return [];
+    }
+
     for (i = 0, j = testData.length; i < j; i += chunk) {
       temporary = testData.slice(i, i + chunk);
       listTemp.push(temporary);
@@ -55,11 +61,15 @@ export default function PageA11y(props) {
   }, [listGrouped.length, page]);
 
   const cardsByPage = useMemo(() => {
-    return listGrouped[Number(page - 1)];
+    return listGrouped && listGrouped.length > 0 ? listGrouped[Number(page - 1)] : [];
   }, [listGrouped, page]);
 
   const displayItems = useMemo(() => {
-    return <ItemList cardList={cardsByPage} index={page} type="test" uid="tests-list" element="test" />;
+    return cardsByPage && cardsByPage.length > 0 ? (
+      <ItemList cardList={cardsByPage} index={page} type="test" uid="tests-list" element="test" />
+    ) : (
+      <p>No items to display</p>
+    );
   }, [cardsByPage, page]);
 
   const breadcrumb_pages = [

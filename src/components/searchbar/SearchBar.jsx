@@ -62,7 +62,6 @@ function SearchBar({ uid, updateFilters }) {
     switch (name) {
       case "passed":
         dispatch(updateTestFilterIsPassed({ value: value }));
-
         break;
       case "applicable":
         dispatch(updateTestFilterIsApplicable({ value: value }));
@@ -152,7 +151,7 @@ function SearchBar({ uid, updateFilters }) {
             <Col className="p-0 mx-1">
               <Button
                 variant="primary"
-                classdata-tag="separation"
+                data-tag="separation"
                 onClick={handleChildButtonClick}
                 className="w-100 h-100 shadow-sm"
               >
@@ -305,7 +304,7 @@ function SearchBar({ uid, updateFilters }) {
             <Col className="p-0 ml-1">
               <Button
                 variant="warning"
-                data-tag="authentication"
+                data-tag="sequences"
                 onClick={handleChildButtonClick}
                 className="w-100 h-100 shadow-sm"
               >
@@ -436,9 +435,9 @@ function SearchBar({ uid, updateFilters }) {
         );
 
       default:
-        return <> </>;
+        return null;
     }
-  }, [filters]);
+  }, [filters.filter_parent_tag]);
 
   const displayControls = useMemo(() => {
     return (
@@ -520,77 +519,79 @@ function SearchBar({ uid, updateFilters }) {
   }, [filters]);
 
   return (
-    <>
-      <a href={uid} className="visually-hidden">
-        Salta la searchbox e vai alla lista di test
-      </a>
+    <Container>
+      <Row>
+        <a href={uid} className="visually-hidden">
+          Salta la searchbox e vai alla lista di test
+        </a>
 
-      <Card className="main-card mb-5 shadow-sm pt-0">
-        <Card.Header as="h2" className="bg-neutral text-center py-2">
-          <span className="visually-hidden">Barra di ricerca</span>
-          <FaSearch alt="" />
-        </Card.Header>
+        <Card className="main-card mb-5 shadow-sm pt-0">
+          <Card.Header as="h2" className="bg-neutral text-center py-2">
+            <span className="visually-hidden">Barra di ricerca</span>
+            <FaSearch alt="" />
+          </Card.Header>
 
-        <Form className="m-0 mt-3 px-0" onSubmit={handleSubmit} role="search" aria-controls="tests-list">
-          {displayControls}
+          <Form className="m-0 mt-3 px-0" onSubmit={handleSubmit} role="search" aria-controls="tests-list">
+            {displayControls}
 
-          <Container className="mb-2 mt-4 border-top pt-4" role="toolbar">
-            <Row className="p-0 d-flex justify-content-between" arial-control="test-btns-list">
-              <Col className="mr-3 p-0">
-                <Button
-                  variant="primary"
-                  className="w-100 shadow-sm"
-                  data-tag="structure"
-                  onClick={handleParentButtonClick}
-                >
-                  Struttura
-                </Button>
-              </Col>
-              <Col className="mx-3 p-0">
-                <Button
-                  variant="success"
-                  className="w-100 shadow-sm"
-                  data-tag="presentation"
-                  onClick={handleParentButtonClick}
-                >
-                  Presentazione
-                </Button>
-              </Col>
+            <Container className="mb-2 mt-4 border-top pt-4" role="toolbar">
+              <Row className="p-0 d-flex justify-content-between" arial-control="test-btns-list">
+                <Col className="mr-3 p-0">
+                  <Button
+                    variant="primary"
+                    className="w-100 shadow-sm"
+                    data-tag="structure"
+                    onClick={handleParentButtonClick}
+                  >
+                    Struttura
+                  </Button>
+                </Col>
+                <Col className="mx-3 p-0">
+                  <Button
+                    variant="success"
+                    className="w-100 shadow-sm"
+                    data-tag="presentation"
+                    onClick={handleParentButtonClick}
+                  >
+                    Presentazione
+                  </Button>
+                </Col>
 
-              <Col className="mx-3 p-0">
-                <Button
-                  variant="warning"
-                  className="w-100 shadow-sm"
-                  data-tag="behavior"
-                  onClick={handleParentButtonClick}
-                >
-                  Comportamento
-                </Button>
-              </Col>
+                <Col className="mx-3 p-0">
+                  <Button
+                    variant="warning"
+                    className="w-100 shadow-sm"
+                    data-tag="behavior"
+                    onClick={handleParentButtonClick}
+                  >
+                    Comportamento
+                  </Button>
+                </Col>
 
-              <Col className="mx-3 p-0">
-                <Button
-                  variant="danger"
-                  className="w-100 shadow-sm"
-                  data-tag="contents"
-                  onClick={handleParentButtonClick}
-                >
-                  Contenuti
-                </Button>
-              </Col>
-              <Col className="ml-3 p-0">
-                <Button variant="info" className="w-100 shadow-sm" data-tag="waria" onClick={handleParentButtonClick}>
-                  W-ARIA
-                </Button>
-              </Col>
-            </Row>
-            <Row className="pt-3" id="test-btns-list">
-              {buttonToDisplay}
-            </Row>
-          </Container>
-        </Form>
-      </Card>
-    </>
+                <Col className="mx-3 p-0">
+                  <Button
+                    variant="danger"
+                    className="w-100 shadow-sm"
+                    data-tag="contents"
+                    onClick={handleParentButtonClick}
+                  >
+                    Contenuti
+                  </Button>
+                </Col>
+                <Col className="ml-3 p-0">
+                  <Button variant="info" className="w-100 shadow-sm" data-tag="waria" onClick={handleParentButtonClick}>
+                    W-ARIA
+                  </Button>
+                </Col>
+              </Row>
+              <Row className="pt-3" id="test-btns-list">
+                {buttonToDisplay}
+              </Row>
+            </Container>
+          </Form>
+        </Card>
+      </Row>
+    </Container>
   );
 }
 
