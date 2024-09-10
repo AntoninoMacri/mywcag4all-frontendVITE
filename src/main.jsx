@@ -3,7 +3,6 @@ import * as React from "react";
 import ReactDOM from "react-dom/client"; // Import corretto per React 18
 import "./index.css";
 import App from "./App";
-import AppPublic from "./AppPublic";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store/store";

@@ -15,6 +15,7 @@ export default function ToolForm(props) {
 
     emailjs
       .sendForm(
+        /* TOGLIERE L'INTERA FORM */
         import.meta.env.VITE_EMAILJS_SERVICE_ID, //TODO: NON SETTATE NELL'env file
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID, //TODO: NON SETTATE NELL'env file
         formRef.current,
