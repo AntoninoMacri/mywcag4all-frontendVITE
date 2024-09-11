@@ -8,11 +8,10 @@ import { useLocation } from "react-router-dom";
 function Header(props) {
   const location = useLocation();
   //const currentLocation = location.state?.location;
-
-  
   const currentPath = useLocation(); // Location corrente
 
-  //console.log(location)
+  // Leggi l'URL di reindirizzamento dalla variabile di ambiente
+  const redirectUrl = import.meta.env.VITE_REDIRECT_URL;
 
   return (
     <header id="header">
@@ -28,8 +27,8 @@ function Header(props) {
           </a>
         </Col>
         <Col md={12} lg={4} className="text-center">
-          {currentPath.pathname  !== "/accessibility-dev/" ? (
-            <a href="http://localhost:3000/accessibility-dev/" hrefLang={"it"} className="main-title"> {/* <a href="https://web.math.unipd.it/accessibility-dev/" hrefLang={"it"} className="main-title"> */}
+          {currentPath.pathname !== "/accessibility-dev/" ? (
+            <a href={redirectUrl} hrefLang={"it"} className="main-title">
               <h1>MyWcag4All</h1>
             </a>
           ) : (
