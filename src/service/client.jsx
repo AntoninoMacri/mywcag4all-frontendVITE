@@ -12,7 +12,7 @@ client.interceptors.request.use(
 
     if (token) {
       request.headers.Authorization = `Bearer ${token}`;
-      console.log("Client interceptors >>>>> Token`: ", token);
+      //console.log("Client interceptors >>>>> Token`: ", token);
     }
 
     return request;
