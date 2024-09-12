@@ -5,9 +5,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
+    open: true,
   },
   build: {
     outDir: "dist", // Cartella di output per il build
     assetsDir: "assets", // Cartella in cui Vite metterà le risorse statiche nella build (es. immagini, CSS)
   },
+  base: "/accessibility-dev/",
 });
