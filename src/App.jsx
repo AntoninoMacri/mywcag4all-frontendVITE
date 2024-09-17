@@ -89,10 +89,10 @@ function App() {
               <Route path="/accessibility-dev/a11y/tests/:testid" element={<PageTest />} />
               <Route path="/accessibility-dev/tools" element={<PageTools title="Strumenti per l'accessibilità" />} />
               <Route path="/accessibility-dev/tools/:toolid" element={<PageTool />} />
-              <Route
+              {/* <Route
                 path="/accessibility-dev/tools/hint"
                 element={<PageToolsHint title="Suggerisci strumenti per l'accessibilità" />}
-              />
+              /> */}
               <Route
                 path="/accessibility-dev/websites"
                 element={<PageWebsites className="w-75" title="I miei siti" />}

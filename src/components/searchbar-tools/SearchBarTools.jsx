@@ -66,24 +66,14 @@ function SearchBarTools(props) {
         Salta la searchbox e vai alla lista di tools
       </a>
 
-      <Form
-        className="d-flex"
-        onSubmit={handleSearch}
-        role="search"
-        aria-controls="tools-list"
-      >
+      <Form className="d-flex" onSubmit={handleSearch} role="search" aria-controls="tools-list">
         <Container>
           <Row>
             <Col md={12} lg={3} className="px-1 my-1">
               <Form.Label className="visually-hidden" htmlFor="type">
                 Tipologia
               </Form.Label>
-              <Form.Select
-                name="type"
-                id="type"
-                onChange={handleChange}
-                defaultValue={tools.filter_type}
-              >
+              <Form.Select name="type" id="type" onChange={handleChange} defaultValue={tools.filter_type}>
                 <option value="">Tipologia</option>
                 {getClasses}
               </Form.Select>
@@ -103,13 +93,7 @@ function SearchBarTools(props) {
             </Col>
 
             <Col md={12} lg={3} className="px-1 my-1">
-              <Button
-                variant="outline-secondary"
-                value="Cerca"
-                type="reset"
-                className="w-100"
-                onClick={handleReset}
-              >
+              <Button variant="outline-secondary" value="Cerca" type="reset" className="w-100" onClick={handleReset}>
                 Reset
               </Button>
             </Col>
@@ -117,7 +101,7 @@ function SearchBarTools(props) {
         </Container>
       </Form>
 
-      {props.hint && (
+      {/* {props.hint && (
         <Row className="mt-3 p-0">
           <Col className="px-3">
             <Link
@@ -129,7 +113,7 @@ function SearchBarTools(props) {
             </Link>
           </Col>
         </Row>
-      )}
+      )} */}
     </Card>
   );
 }
