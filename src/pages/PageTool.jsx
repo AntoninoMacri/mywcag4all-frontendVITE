@@ -74,7 +74,7 @@ export default function PageTool(props) {
                   vai al sito ufficiale di {tool?.name}
                 </a>
               ) : (
-                <span>Sito ufficiale</span>
+                <span>Sito ufficiale non disponibile</span>
               )}
             </Col>
 
@@ -82,7 +82,7 @@ export default function PageTool(props) {
               Licenza:
             </Col>
             <Col as="dd" sm={9}>
-              {tool?.license.url ? (
+              {tool?.license && tool?.license.url ? (
                 <a
                   className="default-anchor"
                   href={tool?.license.url}
@@ -109,11 +109,10 @@ export default function PageTool(props) {
                   target="_blank"
                   rel="noopener noreferrer external"
                 >
-                  {" "}
-                  consulta il codice sorgente{" "}
+                  consulta il codice sorgente
                 </a>
               ) : (
-                <span> Codice sorgente non disponibile</span>
+                <span>Codice sorgente non disponibile</span>
               )}
             </Col>
 
