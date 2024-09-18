@@ -34,7 +34,7 @@ function ItemList(props) {
                 id={card._id}
                 index={card.index}
                 name={card.name}
-                classes={card.classes}
+                classes={card.types} // Cambia qui: Visualizza le tipologie ("types")
                 licenseAbbr={card.licenseabbr}
                 licenseName={card.licensename}
                 price={card.pricing}
@@ -64,9 +64,7 @@ function ItemList(props) {
                 url={card.linkApply}
                 isApplicable={card.isApplicable}
                 isMet={card.isMet}
-                isAgid={
-                  card.level === "AA" || card.level === "A" ? true : false
-                }
+                isAgid={card.level === "AA" || card.level === "A" ? true : false}
               />
             );
           default:
@@ -78,12 +76,7 @@ function ItemList(props) {
 
   const displayList = useMemo(() => {
     return props.cardList?.length > 0 ? (
-      <ul
-        className="w-100 p-0 list-unstyled"
-        id={props.uid}
-        aria-live="polite"
-        aria-atomic="true"
-      >
+      <ul className="w-100 p-0 list-unstyled" id={props.uid} aria-live="polite" aria-atomic="true">
         {itemListResolved}
       </ul>
     ) : (

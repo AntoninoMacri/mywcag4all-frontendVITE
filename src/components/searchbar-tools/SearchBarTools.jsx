@@ -1,24 +1,16 @@
-import { React, useState, useEffect, useMemo } from "react";
+import { React, useMemo } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
-import axios from "../../service/client";
-import { Link } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
-import {
-  updateToolFilterWord,
-  updateToolFilterType,
-  updateToolFilterLicense,
-  filterTestData,
-  resetToolFilter,
-} from "../../store/slice.tools";
 import { useSelector, useDispatch } from "react-redux";
+import { updateToolFilterWord, updateToolFilterType, filterTestData, resetToolFilter } from "../../store/slice.tools";
 
 function SearchBarTools(props) {
   const tools = useSelector((state) => state.tools);
-  const toolsClasses = useSelector((state) => state.tools.classes);
+  const toolsClasses = useSelector((state) => state.tools.classes); // Potrebbe essere il tuo elenco di tipi
 
   const dispatch = useDispatch();
 
@@ -54,7 +46,7 @@ function SearchBarTools(props) {
     }
 
     return toolsClasses.map((_class, index) => (
-      <option id={`tool_class_${index}`} key={`tool-class-${index}`} value={_class._id}>
+      <option id={`tool_class_${index}`} key={`tool-class-${index}`} value={_class.name}>
         {_class.name}
       </option>
     ));
@@ -62,10 +54,6 @@ function SearchBarTools(props) {
 
   return (
     <Card className="main-card mb-5 shadow1">
-      <a href={props.uid} className="visually-hidden">
-        Salta la searchbox e vai alla lista di tools
-      </a>
-
       <Form className="d-flex" onSubmit={handleSearch} role="search" aria-controls="tools-list">
         <Container>
           <Row>
@@ -73,7 +61,7 @@ function SearchBarTools(props) {
               <Form.Label className="visually-hidden" htmlFor="type">
                 Tipologia
               </Form.Label>
-              <Form.Select name="type" id="type" onChange={handleChange} defaultValue={tools.filter_type}>
+              <Form.Select name="type" id="type" onChange={handleChange} defaultValue={tools.filter_class}>
                 <option value="">Tipologia</option>
                 {getClasses}
               </Form.Select>
@@ -100,20 +88,6 @@ function SearchBarTools(props) {
           </Row>
         </Container>
       </Form>
-
-      {/* {props.hint && (
-        <Row className="mt-3 p-0">
-          <Col className="px-3">
-            <Link
-              className="btn btn-primary w-100 p-0"
-              to="/accessibility-dev/tools/hint"
-              state={{ location: "tools" }}
-            >
-              Suggerisci uno strumento
-            </Link>
-          </Col>
-        </Row>
-      )} */}
     </Card>
   );
 }

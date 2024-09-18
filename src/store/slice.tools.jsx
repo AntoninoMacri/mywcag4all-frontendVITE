@@ -42,7 +42,6 @@ export const toolsSlice = createSlice({
       state.filter_license = action.payload.value;
     },
     filterTestData: (state) => {
-      state.tools_data_filtered = {};
       state.tools_data_filtered = state.tools_data.filter(
         (tool) =>
           (state.filter_word === undefined || state.filter_word === ""
@@ -50,7 +49,7 @@ export const toolsSlice = createSlice({
             : tool.name.toLowerCase().includes(state.filter_word.toLowerCase())) &&
           (state.filter_class === undefined || state.filter_class === null || state.filter_class === ""
             ? true
-            : tool_include_a_tool_class(tool.classes, state.filter_class))
+            : tool.types.includes(state.filter_class))
       );
     },
     resetToolFilter: (state) => {
