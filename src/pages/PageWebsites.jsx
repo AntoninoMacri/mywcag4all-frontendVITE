@@ -38,7 +38,6 @@ export default function PageWebsites(props) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-
     dispatch(setFilters());
     dispatch(setFilteredTestData());
     dispatch(resetToolFilter());
@@ -51,7 +50,7 @@ export default function PageWebsites(props) {
     });
 
     getTools().then((res) => {
-      dispatch(setToolsData(res));
+      dispatch(setToolsData({ data: res }));
     });
 
     getRanking().then((res) => {

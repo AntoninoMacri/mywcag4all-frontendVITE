@@ -23,9 +23,11 @@ export const toolsSlice = createSlice({
   },
   reducers: {
     setToolsData: (state, action) => {
+      //console.log("Dati ricevuti: ", action.payload.data); // Debug per confermare i dati
       state.tools_data = action.payload.data;
       state.tools_data_filtered = action.payload.data;
     },
+
     setToolsDataClsses: (state, action) => {
       state.classes = action.payload.data;
     },
