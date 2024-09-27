@@ -24,7 +24,12 @@ export default function WebsiteForm(props) {
   const _website = useSelector((state) => state.website.website);
   const [website, setWebsite] = useState(_website);
 
-  const { register, handleSubmit, control, formState: { errors } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
     defaultValues: props.type === "update" ? website : {},
   });
 
@@ -113,19 +118,11 @@ export default function WebsiteForm(props) {
                 <Controller
                   name="name"
                   control={control}
-                  defaultValue={website?.name || ""}
+                  defaultValue={website?.name || "Nome"}
                   rules={{ required: "Il nome del sito è obbligatorio" }}
-                  render={({ field }) => (
-                    <Form.Control
-                      type="text"
-                      {...field}
-                      isInvalid={!!errors.name}
-                    />
-                  )}
+                  render={({ field }) => <Form.Control type="text" {...field} isInvalid={!!errors.name} />}
                 />
-                <Form.Control.Feedback type="invalid">
-                  {errors.name?.message}
-                </Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">{errors.name?.message}</Form.Control.Feedback>
               </Form.Group>
 
               <Form.Group className="mb-3">
@@ -135,19 +132,11 @@ export default function WebsiteForm(props) {
                 <Controller
                   name="url"
                   control={control}
-                  defaultValue={String(website?.url) || ""}
+                  defaultValue={website?.url || "Sito"}
                   rules={{ required: "L'URL del sito è obbligatorio" }}
-                  render={({ field }) => (
-                    <Form.Control
-                      type="text"
-                      {...field}
-                      isInvalid={!!errors.url}
-                    />
-                  )}
+                  render={({ field }) => <Form.Control type="text" {...field} isInvalid={!!errors.url} />}
                 />
-                <Form.Control.Feedback type="invalid">
-                  {errors.url?.message}
-                </Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">{errors.url?.message}</Form.Control.Feedback>
               </Form.Group>
 
               <Form.Group className="mb-3">
@@ -178,7 +167,7 @@ export default function WebsiteForm(props) {
                   name="isPublic"
                   control={control}
                   defaultValue={website?.isPublic || false}
-                  rules={{ validate: value => value === true || value === false }}
+                  rules={{ validate: (value) => value === true || value === false }}
                   render={({ field }) => (
                     <>
                       <Form.Check
