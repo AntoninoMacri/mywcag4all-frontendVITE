@@ -198,7 +198,7 @@ export default function PageProfile() {
 
       <Card className="main-card shadow1">
         <h2 className="bold6">Informazioni</h2>
-        <hr aria-hidden="true" alt="" />
+        <hr aria-hidden="true" />
         <Row className="dl">
           <Col as="dt" sm={2}>
             Email
@@ -219,7 +219,7 @@ export default function PageProfile() {
 
       <Card className="main-card mt-5 shadow1">
         <h2 className="bold6 mb-3">Gestisci</h2>
-        <hr aria-hidden="true" alt="" />
+        <hr aria-hidden="true" />
 
         <Row>
           <Col sm={12}>

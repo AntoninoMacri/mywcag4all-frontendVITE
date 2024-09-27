@@ -25,7 +25,6 @@ root.render(
     <PersistGate loading={null} persistor={persistor}>
       <React.StrictMode>
         <BrowserRouter>
-          {/* <AppPublic /> // non utilizzato da dopo la rimozione di auth0 */}
           <App />
         </BrowserRouter>
       </React.StrictMode>

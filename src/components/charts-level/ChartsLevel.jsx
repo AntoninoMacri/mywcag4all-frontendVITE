@@ -86,17 +86,16 @@ function ChartsLevel({
               pathColor: "#0D6EFD",
               textColor: "black",
               textSize: "6px",
-              fontWeight: "bold"
+              fontWeight: "bold",
             })}
             className="w-50"
             value={passedTest}
             maxValue={applicableTest}
             text={`${parseInt((passedTest * 100) / applicableTest)}% test superati`}
-
           />
         </Col>
       </Row>
-      <hr aria-hidden="true" alt=""/>
+      <hr aria-hidden="true" />
     </>
   );
 }

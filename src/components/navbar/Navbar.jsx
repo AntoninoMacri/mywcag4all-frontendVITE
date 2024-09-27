@@ -99,7 +99,7 @@ function Navbar(props) {
       </nav>
       {legend}
       {isAuthenticated && <BtnLogout />} {/* per vedere il button di logout {!isAuthenticated && <BtnLogout /> }*/}
-      <hr aria-hidden="true" alt="" />
+      <hr aria-hidden="true" />
     </div>
   );
 }

@@ -17,11 +17,10 @@ export default function PageTest(props) {
   const params = useParams();
   const id = params.testid;
 
-  const test = useSelector(state => {
-    const selectedTest = state.website.website.tests.find(test => test.index === id);
+  const test = useSelector((state) => {
+    const selectedTest = state.website.website.tests.find((test) => test.index === id);
     return selectedTest;
-  })
-
+  });
 
   useTitle("Test ", id, " | Lista di test | Accessibilità | MyWcag4All");
 
@@ -67,7 +66,6 @@ export default function PageTest(props) {
           <h1 className="bold7 text-center">Specifiche Test {id}</h1>
         </Card.Header>
         <Card.Body>
-
           <>
             <h2 className="bold7">Informazioni</h2>
             <Row as="dl">
@@ -93,7 +91,7 @@ export default function PageTest(props) {
               </Col>
             </Row>
 
-            <hr aria-hidden="true" alt="" />
+            <hr aria-hidden="true" />
 
             <h2 className="bold7">Accessibilità</h2>
 
@@ -143,7 +141,7 @@ export default function PageTest(props) {
               </Col>
             </Row>
 
-            <hr aria-hidden="true" alt="" />
+            <hr aria-hidden="true" />
 
             <h2 className="bold7">Strumenti</h2>
 
@@ -172,4 +170,4 @@ export default function PageTest(props) {
       </Card>
     </Container>
   );
-};
+}

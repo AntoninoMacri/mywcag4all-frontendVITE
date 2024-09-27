@@ -55,13 +55,12 @@ function App() {
       return (
         <>
           <Header />
-          <Container className="d-flex justify-content-center">
-            <Routes>
-              <Route path="/" element={<Navigate replace to="/accessibility-dev/" />} />
-              <Route path="/accessibility-dev/" element={<PageHome title="accessibility-dev" />} />
-              <Route path="/accessibility-dev/PageNotFound" element={<PublicPageNotFound title="PageNotFound" />} />
-            </Routes>
-          </Container>
+          <Routes>
+            <Route path="/" element={<Navigate replace to="/accessibility-dev/" />} />
+            <Route path="/accessibility-dev/" element={<PageHome title="accessibility-dev" />} />
+            <Route path="/accessibility-dev/PageNotFound" element={<PublicPageNotFound title="PageNotFound" />} />
+          </Routes>
+          {/* </Container> */}
           <Footer />
         </>
       );

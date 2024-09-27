@@ -224,6 +224,7 @@ export default function PageSignUp(props) {
                 }
                 checked={form_Data.isAdmin}
                 label="Admin?"
+                title={null}
               />
             </Form.Group>
           </Row>
