@@ -50,7 +50,7 @@ export default function PageTest(props) {
       state: "a11y",
     },
     {
-      page: "Dettagio test " + id,
+      page: "Dettaglio test " + id,
       url: "/accessibility-dev/a11y/" + id,
       isCurrent: true,
       state: "a11y",
