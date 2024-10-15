@@ -1,50 +1,60 @@
-import { React, useState, useEffect } from "react";
+import React, { useState } from "react";
 import WcagLevels from "../wcag-levels/WcagLevels";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Badge from "react-bootstrap/Badge";
-import axios from "../../service/client";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateCriterion } from "../../store/websiteSlice";
 import { getIndexes } from "../../utils/indexManager";
 
 export default function WcagItemCard(props) {
   const [isApplicable, setIsApplicable] = useState(props.isApplicable);
   const [isMet, setIsMet] = useState(props.isMet);
-  const [indexes, setIndexes] = useState(getIndexes(props.index));
+  const [indexes] = useState(getIndexes(props.index));
   const dispatch = useDispatch();
 
-  const onClickHandlerSwitch = (event) => {
-
+  const onApplicableChange = (event) => {
     const tmpIsApplicable = event.target.checked;
-    const tmpIsMet = tmpIsApplicable==false ? true : false;
-    dispatch(updateCriterion({ criterionIndex: props.index, guidelineIndex: indexes.guidelineIndex, sectionIndex: indexes.sectionIndex, isMet: tmpIsMet, isApplicable: tmpIsApplicable }));
+    setIsApplicable(tmpIsApplicable);
 
-    if (isApplicable) {
-      setIsApplicable(false);
-      setIsMet(true);
-    } else {
-      setIsApplicable(true);
+    // Se non applicabile, imposta isMet a true
+    let tmpIsMet = isMet;
+    if (!tmpIsApplicable) {
+      tmpIsMet = true;
+      setIsMet(tmpIsMet);
     }
+
+    dispatch(
+      updateCriterion({
+        criterionIndex: props.index,
+        guidelineIndex: indexes.guidelineIndex,
+        sectionIndex: indexes.sectionIndex,
+        isMet: tmpIsMet,
+        isApplicable: tmpIsApplicable,
+      })
+    );
   };
 
-  const onClickHandlerCheckbox = (event) => {
-    
+  const onMetChange = (event) => {
     const tmpIsMet = event.target.checked;
-    dispatch(updateCriterion({ criterionIndex: props.index, guidelineIndex: indexes.guidelineIndex, sectionIndex: indexes.sectionIndex, isMet: tmpIsMet, isApplicable }));
+    setIsMet(tmpIsMet);
 
-    if (isMet) {
-      setIsMet(false);
-    } else {
-      setIsMet(true);
-    }
+    dispatch(
+      updateCriterion({
+        criterionIndex: props.index,
+        guidelineIndex: indexes.guidelineIndex,
+        sectionIndex: indexes.sectionIndex,
+        isMet: tmpIsMet,
+        isApplicable: isApplicable,
+      })
+    );
   };
 
   return (
     <li
       key={props.id}
-      className="test-item d-block flex-row border justify-content-betweew w-100 align-items-center p-1 mb-5"
+      className="test-item d-block flex-row border justify-content-between w-100 align-items-center p-1 mb-5"
     >
       <Row className="d-flex align-items-center py-0 wcag-item">
         <Col md={12} lg={2} className="d-inline-block align-self">
@@ -71,15 +81,13 @@ export default function WcagItemCard(props) {
         </Col>
 
         <Col md={12} lg={1} className="text-right align-self">
-          <span className="visually-hidden">
-            È un criterio conentuto nella dichiarazione di accessibilità:{" "}
-          </span>
+          <span className="visually-hidden">È un criterio contenuto nella dichiarazione di accessibilità: </span>
           {props.isAgid && <Badge>AGID</Badge>}
         </Col>
 
         <Col md={12} lg={2} className="d-inline-block align-self">
           <Form className="d-inline-block">
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+            <Form.Group className="mb-3" controlId={`formApplicable-${props.id}`}>
               <Form.Check
                 checked={isApplicable}
                 inline
@@ -87,20 +95,20 @@ export default function WcagItemCard(props) {
                 id={`applicable-${props.id}`}
                 label="Applicabile"
                 aria-label={`criterio ${props.index} applicabile`}
-                onClick={onClickHandlerSwitch}
+                onChange={onApplicableChange}
               />
             </Form.Group>
 
-            <Form.Group controlId="formBasicCheckbox" className="mt-0">
+            <Form.Group controlId={`formPassed-${props.id}`} className="mt-0">
               <Form.Check
                 inline
                 checked={isMet}
-                disabled={isApplicable ? false : true}
+                disabled={!isApplicable}
                 type="switch"
                 label="Superato"
-                aria-label={`criterio ${props.index} applicabile`}
+                aria-label={`criterio ${props.index} superato`}
                 id={`passed-${props.id}`}
-                onClick={onClickHandlerCheckbox}
+                onChange={onMetChange}
               />
             </Form.Group>
           </Form>
