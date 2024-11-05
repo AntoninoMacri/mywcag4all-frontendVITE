@@ -34,6 +34,7 @@ import { selectAuth } from "./store/authSlice";
 import Container from "./components/container/Container";
 import PublicPageNotFound from "./pages/PublicPageNotFound";
 import PageHome from "./pages/PublicPageHome";
+import PageWizard from "./pages/PageWizard";
 
 function App() {
   const dispatch = useDispatch();
@@ -111,6 +112,7 @@ function App() {
               <Route path="/accessibility-dev/ranking" element={<PageRanking title="Classifica" />} />
               <Route path="/accessibility-dev/profile" element={<PageProfile title="Profilo" />} />
               <Route path="/accessibility-dev/myths" element={<PublicPageMyths />} />
+              <Route path="/accessibility-dev/wizard" element={<PageWizard title="Wizard" />} />
               <Route path="*" element={<PublicPageNotFound />} />
             </Routes>
           </div>
@@ -132,6 +134,7 @@ function App() {
               <Route path="/accessibility-dev/myths" element={<PublicPageMyths />} />
               <Route path="/accessibility-dev/tools" element={<PageTools title="Strumenti per l'accessibilità" />} />
               <Route path="/accessibility-dev/tools/:toolid" element={<PageTool />} />
+              <Route path="/accessibility-dev/wizard" element={<PageWizard title="Wizard" />} />
               <Route path="*" element={<PublicPageNotFound />} />
             </Routes>
           </div>

@@ -8,11 +8,9 @@ import { FaMagic, FaTools, FaBackward } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getLicenses } from "../service/api/api.licenses";
-import {
-  setToolsData,
-  setToolsDataClsses,
-} from "../store/slice.tools";
+import { setToolsData, setToolsDataClsses } from "../store/slice.tools";
 import { getTools, getToolsClasses } from "../service/api/api.tools";
+import { GrNotes } from "react-icons/gr";
 
 export default function PageHome(props) {
   const dispatch = useDispatch();
@@ -43,15 +41,22 @@ export default function PageHome(props) {
         <Col>
           <Card className="home-card shadow1">
             <Card.Header className="gradient-btns-homepage">
+              <GrNotes alt=" " />
+            </Card.Header>
+            <Card.Body>
+              <Link to="/accessibility-dev/wizard" as="h2" className="h5 default-anchor" state={{ location: "public" }}>
+                Wizard
+              </Link>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col>
+          <Card className="home-card shadow1">
+            <Card.Header className="gradient-btns-homepage">
               <FaMagic alt="" />
             </Card.Header>
             <Card.Body>
-              <Link
-                to="/accessibility-dev/myths"
-                as="h2"
-                className="h5 default-anchor"
-                state={{ location: "public" }}
-              >
+              <Link to="/accessibility-dev/myths" as="h2" className="h5 default-anchor" state={{ location: "public" }}>
                 Miti e stereotipi
               </Link>
             </Card.Body>
@@ -63,12 +68,7 @@ export default function PageHome(props) {
               <FaTools alt="" />
             </Card.Header>
             <Card.Body>
-              <Link
-                to="/accessibility-dev/tools"
-                as="h2"
-                className="h5 default-anchor"
-                state={{ location: "public" }}
-              >
+              <Link to="/accessibility-dev/tools" as="h2" className="h5 default-anchor" state={{ location: "public" }}>
                 Strumenti per l'accessibilità
               </Link>
             </Card.Body>
