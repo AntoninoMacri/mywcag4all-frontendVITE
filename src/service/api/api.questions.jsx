@@ -3,9 +3,11 @@ import client from "../client";
 // Funzione per ottenere tutte le domande
 export const getQuestions = async () => {
   try {
-    const res = await client.get(`questions`);
+    const res = await client.get("questions");
+    console.log("API response questions:", res); // Log della risposta dell'API
     return res.data;
   } catch (err) {
+    console.error("Error fetching questions:", err);
     throw err;
   }
 };
