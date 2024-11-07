@@ -143,10 +143,10 @@ export default function PageWizard(props) {
               </button>
               <div>
                 <button className="btn btn-primary me-2" onClick={handleYes} type="button">
-                  Sì, esegui i test
+                  Esegui i test
                 </button>
                 <button className="btn btn-secondary" onClick={handleNo} type="button">
-                  No, prossima domanda
+                  Prossima domanda
                 </button>
               </div>
             </div>
