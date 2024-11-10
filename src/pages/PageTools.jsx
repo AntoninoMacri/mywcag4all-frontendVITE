@@ -12,6 +12,22 @@ import { useTitle } from "../hooks/HookTitle";
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 
+/*da importare in ogni pagina - inizio */
+import { useDispatch } from "react-redux";
+import { resetToolFilter, setToolsData, setToolsDataLicenses, setToolsDataClsses } from "../store/slice.tools";
+import { setWebsites as setWebsitesData } from "../store/websiteSlice";
+import { setFilters, setFilteredTestData } from "../store/websiteSlice";
+import { getWebsites } from "../service/api/api.websites";
+import { selectAuth, addUser } from "../store/authSlice"; // Importa selectAuth e addUser dal nuovo authSlice
+import { getTools, getToolsClasses } from "../service/api/api.tools";
+import { getRanking } from "../service/api/api.ranking";
+import { setRanking } from "../store/rankingSlice";
+import { getLicenses } from "../service/api/api.licenses";
+import { setSections } from "../store/sectionsSlice";
+import { getSections } from "../service/api/api.sections";
+import { useEffect, useState } from "react";
+/*da importare in ogni pagina - fine */
+
 // Memoization del selettore tools_data_filtered
 const selectFilteredTools = createSelector(
   (state) => state.tools.tools_data_filtered,
@@ -19,8 +35,46 @@ const selectFilteredTools = createSelector(
 );
 
 export default function PageTools(props) {
+  /*da importare in ogni pagina - inizio */
+  const dispatch = useDispatch();
+  const { user } = useSelector(selectAuth); // Usa selectAuth per ottenere l'utente dallo stato Redux
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => {
+    dispatch(setFilters());
+    dispatch(setFilteredTestData());
+    dispatch(resetToolFilter());
+
+    getWebsites(user._id).then((res) => {
+      dispatch(setWebsitesData(res));
+      dispatch(setFilters());
+      dispatch(setFilteredTestData());
+      setIsLoaded(true);
+    });
+
+    getTools().then((res) => {
+      dispatch(setToolsData({ data: res }));
+    });
+
+    getRanking().then((res) => {
+      dispatch(setRanking(res));
+    });
+
+    getToolsClasses().then((res) => {
+      dispatch(setToolsDataClsses({ data: res }));
+    });
+
+    getLicenses().then(function (res) {
+      dispatch(setToolsDataLicenses({ data: res }));
+    });
+
+    getSections().then((res) => {
+      dispatch(setSections({ data: res }));
+    });
+  }, []);
+  /*da importare in ogni pagina - fine */
+
   useTitle("Lista strumenti | Accessibilità | MyWcag4All");
-  
+
   const tools = useSelector(selectFilteredTools); // Utilizza il selettore memoizzato
   const page = useSelector((state) => state.tools.filter_page);
 

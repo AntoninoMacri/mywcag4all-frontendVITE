@@ -35,10 +35,35 @@ import Container from "./components/container/Container";
 import PublicPageNotFound from "./pages/PublicPageNotFound";
 import PageHome from "./pages/PublicPageHome";
 import PageWizard from "./pages/PageWizard";
+import { logout } from "./store/authSlice";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const dispatch = useDispatch();
-  const { isAuthenticated } = useSelector(selectAuth);
+  const { isAuthenticated, expirationDate } = useSelector(selectAuth);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated && expirationDate) {
+      const now = new Date().getTime();
+
+      // Controlla se il token è scaduto
+      if (now > expirationDate) {
+        dispatch(logout());
+        navigate("/accessibility-dev/"); // Redirect alla pagina di home
+      } else {
+        // Imposta un timer per disconnettersi automaticamente al termine della sessione
+        const timeout = expirationDate - now;
+        const timer = setTimeout(() => {
+          dispatch(logout());
+          navigate("/accessibility-dev/"); // Redirect alla pagina di home
+        }, timeout);
+
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [isAuthenticated, expirationDate, dispatch]);
 
   const currentPath = useLocation(); // Location corrente
   const [location, setLocation] = useState("");
