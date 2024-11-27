@@ -1,4 +1,3 @@
-// PageWizard.js
 import React, { useState, useEffect, useRef } from "react";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
@@ -7,17 +6,12 @@ import Title from "../components/title/Title";
 import { Link } from "react-router-dom";
 import { useTitle } from "../hooks/HookTitle";
 import { getQuestions } from "../service/api/api.questions";
-import { getWebsites, postUpdateWebsiteTests } from "../service/api/api.website";
-import { useSelector } from "react-redux"; // Importiamo useSelector
 
 export default function PageWizard(props) {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [showTests, setShowTests] = useState(false);
   const [currentTestIndex, setCurrentTestIndex] = useState(0);
-
-  const [userWebsites, setUserWebsites] = useState([]); // Stato per i siti dell'utente
-  const [selectedWebsiteId, setSelectedWebsiteId] = useState(null); // Stato per il sito selezionato
 
   const questionHeadingRef = useRef(null);
   const testHeadingRef = useRef(null);
@@ -38,10 +32,6 @@ export default function PageWizard(props) {
   ];
 
   useTitle("Wizard | MyWcag4All");
-
-  // Accesso allo stato di autenticazione
-  const auth = useSelector((state) => state.auth);
-  const userId = auth.user ? auth.user._id : null;
 
   useEffect(() => {
     // Recupera domande e stato salvato
@@ -69,19 +59,6 @@ export default function PageWizard(props) {
         console.error("Errore nel recupero delle domande:", error);
       });
   }, []);
-
-  useEffect(() => {
-    // Se l'utente è loggato, recupera i suoi siti
-    if (userId) {
-      getWebsites(userId)
-        .then((websites) => {
-          setUserWebsites(websites);
-        })
-        .catch((error) => {
-          console.error("Errore nel recupero dei siti web dell'utente:", error);
-        });
-    }
-  }, [userId]);
 
   // Salva stato corrente nel localStorage
   const saveState = (questionIndex, testIndex, testsVisible) => {
@@ -146,43 +123,6 @@ export default function PageWizard(props) {
     }
   };
 
-  // Funzione per aggiornare i test del sito selezionato
-  const handleUpdateWebsiteTests = () => {
-    if (selectedWebsiteId) {
-      // Prepara i dati dei test
-      const allTestResults = [];
-      questions.forEach((question) => {
-        if (question.tests && Array.isArray(question.tests)) {
-          question.tests.forEach((test) => {
-            if (test._id) {
-              allTestResults.push({
-                testId: test._id,
-                status: "passed",
-              });
-            } else {
-              console.warn("Test senza _id:", test);
-            }
-          });
-        }
-      });
-
-      if (allTestResults.length === 0) {
-        alert("Nessun test da aggiornare.");
-        return;
-      }
-
-      // Chiama l'API per aggiornare i test del sito
-      postUpdateWebsiteTests(selectedWebsiteId, allTestResults)
-        .then((results) => {
-          alert("I test sono stati aggiornati con successo.");
-        })
-        .catch((error) => {
-          console.error("Errore durante l'aggiornamento dei test del sito:", error);
-          alert("Si è verificato un errore durante l'aggiornamento dei test del sito.");
-        });
-    }
-  };
-
   if (currentQuestionIndex >= questions.length) {
     return (
       <Container>
@@ -191,43 +131,7 @@ export default function PageWizard(props) {
           <Title title="Wizard Completato" />
           <Card.Body>
             <p>Hai completato tutte le domande del wizard!</p>
-            {auth.isAuthenticated ? (
-              <>
-                {userWebsites.length > 0 ? (
-                  <>
-                    <p>Seleziona uno dei tuoi siti per aggiornare lo stato dei test:</p>
-                    <select
-                      className="form-select mb-3"
-                      value={selectedWebsiteId || ""}
-                      onChange={(e) => setSelectedWebsiteId(e.target.value)}
-                    >
-                      <option value="" disabled>
-                        Seleziona un sito
-                      </option>
-                      {userWebsites.map((website) => (
-                        <option key={website._id} value={website._id}>
-                          {website.name}
-                        </option>
-                      ))}
-                    </select>
-                    <button
-                      className="btn btn-primary w-100"
-                      onClick={handleUpdateWebsiteTests}
-                      disabled={!selectedWebsiteId}
-                    >
-                      Aggiorna Test del Sito
-                    </button>
-                  </>
-                ) : (
-                  <p>Non hai siti associati al tuo account.</p>
-                )}
-              </>
-            ) : (
-              <p>
-                <Link to="/login">Accedi</Link> per aggiornare lo stato dei test dei tuoi siti.
-              </p>
-            )}
-            <Link className="btn btn-secondary w-100 mt-3" to="/accessibility-dev/">
+            <Link className="btn btn-secondary w-100" to="/accessibility-dev/">
               Torna alla home.
             </Link>
             <button className="btn btn-danger w-100 mt-3" onClick={handleReset}>
